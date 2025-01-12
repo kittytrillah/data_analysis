@@ -8,6 +8,8 @@
             "args": [
                 "-DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++",
                 "-DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm/bin/clang",
+                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+                "-DCMAKE_PREFIX_PATH=/opt/homebrew", // Google Test path
                 "-S", "${workspaceFolder}",
                 "-B", "${workspaceFolder}/build"
             ],
@@ -15,7 +17,7 @@
                 "env": {
                     "PATH": "/opt/homebrew/opt/llvm/bin:${env:PATH}",
                     "LDFLAGS": "-L/opt/homebrew/opt/llvm/lib",
-                    "CPPFLAGS": "-I/opt/homebrew/opt/llvm/include"
+                    "CPPFLAGS": "-I/opt/homebrew/include"
                 }
             },
             "group": {
@@ -28,22 +30,34 @@
             "type": "shell",
             "command": "cmake",
             "args": [
-                "-DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm/bin/clang++",
-                "-DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm/bin/clang",
-                "-S", "${workspaceFolder}",
-                "-B", "${workspaceFolder}/build"
+                "--build", "${workspaceFolder}/build"
             ],
             "options": {
                 "env": {
                     "PATH": "/opt/homebrew/opt/llvm/bin:${env:PATH}",
                     "LDFLAGS": "-L/opt/homebrew/opt/llvm/lib",
-                    "CPPFLAGS": "-I/opt/homebrew/opt/llvm/include"
+                    "CPPFLAGS": "-I/opt/homebrew/include"
                 }
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Run Unit Tests",
+            "type": "shell",
+            "command": "${workspaceFolder}/build/tests/UnitTests",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Print Workspace Folder",
+            "type": "shell",
+            "command": "echo",
+            "args": ["${workspaceFolder}"]
         }
     ]
 }

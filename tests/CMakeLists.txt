@@ -1,13 +1,17 @@
-# Add executable for tests
+# Add executable for Unit Tests
 add_executable(UnitTests UnitTests.cpp)
 
 # Link the core library with the test executable
-target_link_libraries(UnitTests PRIVATE FinanceCore)
+target_link_libraries(UnitTests PRIVATE FinanceCore GTest::gtest GTest::gtest_main)
 
-# Find and link GoogleTest
+# Find GoogleTest
 find_package(GTest REQUIRED)
-target_link_libraries(UnitTests PRIVATE GTest::gtest GTest::gtest_main)
+
+# Include GTest directories for tests
+target_include_directories(UnitTests PRIVATE ${GTEST_INCLUDE_DIRS})
 
 # Enable testing
-include(GoogleTest)
-gtest_discover_tests(UnitTests)
+enable_testing()
+
+# Add tests
+add_test(NAME UnitTests COMMAND UnitTests)
